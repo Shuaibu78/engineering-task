@@ -1,0 +1,29 @@
+.cardWrapper {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 20px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+img {
+  object-fit: cover;
+  width: 100px;
+  height: 100px;
+}
+
+.cardDetails {
+  width: 75%;
+  line-height: 0;
+}
