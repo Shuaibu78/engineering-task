@@ -49,27 +49,6 @@ function App() {
   );
 
   const searchQueryData = () => {
-    // return items.filter((item) => {
-    //   if (item.region == filterParam) {
-    //     return searchParam.some((newItem) => {
-    //       return (
-    //         item[newItem]
-    //           .toString()
-    //           .toLowerCase()
-    //           .indexOf(q.toLowerCase()) > -1
-    //       );
-    //     });
-    //   } else if (filterParam == "All") {
-    //     return searchParam.some((newItem) => {
-    //       return (
-    //         item[newItem]
-    //           .toString()
-    //           .toLowerCase()
-    //           .indexOf(q.toLowerCase()) > -1
-    //       );
-    //     });
-    //   }
-    // });
     return launchData?.filter((data) => {
       if (data?.launch_site?.site_name === launchSiteName) {
         return searchParam.some((param) => (
