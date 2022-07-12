@@ -1,32 +1,15 @@
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { useState, useEffect } from "react";
 import LaunchesPastCard from "./components/card";
+import { GET_LAUNCHES_PAST } from "./graphql/queries";
 import "./App.css";
-
-const GET_LAUNCHES_PAST = gql`
-  query launchesPast($limit: Int, $find: LaunchFind) {
-    launchesPast(limit: $limit, find: $find) {
-      mission_name
-      launch_date_local
-      launch_site {
-        site_name
-      }
-      links {
-        flickr_images
-        article_link
-      }
-      launch_year
-      id
-      launch_success
-    }
-  }
-`;
 
 function App() {
   const [launchData, setLaunchData] = useState([]);
   const [siteName, setSiteName] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [searchParam] = useState(["mission_name", "launch_site"]);
+
   const { loading, error, data } = useQuery(GET_LAUNCHES_PAST, {
     variables: { limit: 40, find: { site_name: siteName } },
   });
@@ -46,6 +29,8 @@ function App() {
 
   const launchYears = [];
   const siteNames = [];
+  const pastLaunchesYear = [];
+  const siteNamesList = [];
 
   if (data.launchesPast) {
     data.launchesPast.forEach(({ launch_year, launch_site: { site_name } }) => {
@@ -56,18 +41,16 @@ function App() {
 
   const specificLaunchYears = new Set(launchYears);
   const specificSiteNames = new Set(siteNames);
-  const pastLaunchesYear = [];
-  const siteNamesList = [];
-  const rocketLaunchedYear = specificLaunchYears.forEach((year) =>
+  specificLaunchYears.forEach((year) =>
     pastLaunchesYear.push(year)
   );
-  const rocketSiteName = specificSiteNames.forEach((site) =>
+  specificSiteNames.forEach((site) =>
     siteNamesList.push(site)
   );
 
-  const handleSearch = () => {
-    return launchData?.filter((data) => (searchParam.some((newItem) => (
-      data[newItem]
+  const searchQueryData = () => {
+    return launchData?.filter((data) => (searchParam.some((param) => (
+      data[param]
         .toString()
         .toLowerCase()
         .indexOf(searchQuery.toLowerCase()) > -1
@@ -99,7 +82,7 @@ function App() {
               <h2>Launch Year:</h2>
               <h2>&ensp;{year}</h2>
             </div>
-            <LaunchesPastCard launchedYear={year} handleSearch={handleSearch} />
+            <LaunchesPastCard launchedYear={year} searchQueryData={searchQueryData} />
           </div>
         ))}
       </div>
