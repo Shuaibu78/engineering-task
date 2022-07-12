@@ -1,5 +1,7 @@
-# Getting Started with Create React App
+# Decision Made while working on The task
+The first decision i made when i started working on the task was how i wanted to structure my folders and then later on i made a decision on the fake graphql api to use which is the [spaceX graphql api](http://api.spacex.land/graphql/), i choosed that api because of it robust data. After going through the api i decided to work on the task using the `LaunchesPast endpoint` from which i got the following columns: `mission_name, site_name, launch_year, link, launch_date_local`. using the data gotten from the endpoint i created a past lauches data card that display details about the launch and as instructed i created a filter which filters the data based on the Launched site name of the rocket.
 
+# Getting Started with Create React App
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
