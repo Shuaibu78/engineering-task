@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const GET_LAUNCHES_PAST = gql`
-  query launchesPast($limit: Int, $find: LaunchFind) {
-    launchesPast(limit: $limit, find: $find) {
+  query launchesPast($limit: Int) {
+    launchesPast(limit: $limit) {
       mission_name
       launch_date_local
       launch_site {

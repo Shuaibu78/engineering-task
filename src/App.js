@@ -6,12 +6,12 @@ import "./App.css";
 
 function App() {
   const [launchData, setLaunchData] = useState([]);
-  const [siteName, setSiteName] = useState("");
+  const [launchSiteName, setLaunchSiteName] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [searchParam] = useState(["mission_name", "launch_site"]);
 
   const { loading, error, data } = useQuery(GET_LAUNCHES_PAST, {
-    variables: { limit: 40, find: { site_name: siteName } },
+    variables: { limit: 40 },
   });
 
   useEffect(() => {
@@ -49,13 +49,44 @@ function App() {
   );
 
   const searchQueryData = () => {
-    return launchData?.filter((data) => (searchParam.some((param) => (
-      data[param]
-        .toString()
-        .toLowerCase()
-        .indexOf(searchQuery.toLowerCase()) > -1
-    ))
-    ));
+    // return items.filter((item) => {
+    //   if (item.region == filterParam) {
+    //     return searchParam.some((newItem) => {
+    //       return (
+    //         item[newItem]
+    //           .toString()
+    //           .toLowerCase()
+    //           .indexOf(q.toLowerCase()) > -1
+    //       );
+    //     });
+    //   } else if (filterParam == "All") {
+    //     return searchParam.some((newItem) => {
+    //       return (
+    //         item[newItem]
+    //           .toString()
+    //           .toLowerCase()
+    //           .indexOf(q.toLowerCase()) > -1
+    //       );
+    //     });
+    //   }
+    // });
+    return launchData?.filter((data) => {
+      if (data?.launch_site?.site_name === launchSiteName) {
+        return searchParam.some((param) => (
+          data[param]
+            .toString()
+            .toLowerCase()
+            .indexOf(searchQuery.toLowerCase()) > -1
+        ))
+      } else if (launchSiteName === "All") {
+        return searchParam.some((param) => (
+          data[param]
+            .toString()
+            .toLowerCase()
+            .indexOf(searchQuery.toLowerCase()) > -1
+        ))
+      }
+    });
   }
 
   return (
@@ -66,8 +97,8 @@ function App() {
       <div className="selectContainer">
         <label htmlFor="sortRockets">Filter By Site Name:</label>
         <div className="select">
-          <select id="sortRockets" value={siteName} onChange={(e) => setSiteName(e.target.value)}>
-            <option value="">All site</option>
+          <select id="sortRockets" value={launchSiteName} onChange={(e) => setLaunchSiteName(e.target.value)}>
+            <option value="All">All site</option>
             <option value="CCAFS SLC 40">CCAFS SLC 40</option>
             <option value="VAFB SLC 4E">VAFB SLC 4E</option>
             <option value="KSC LC 39A">KSC LC 39A</option>
